@@ -4,21 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Portfolio Projecgroep MSI Mprise Agriware</title>
+    <title>Portfolio Germain</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script>
-        // Check if the navigationFilePath variable is already stored in local storage
-    var navigationFilePath = localStorage.getItem('navigationFilePath');
-    console.log('navigationFilePath from local storage:', navigationFilePath);
-
-    // If not stored, set a default value
-    if (!navigationFilePath) {
-        navigationFilePath = 'navigation.html'; // Default path to navigation file
-        localStorage.setItem('navigationFilePath', navigationFilePath); // Store it in local storage
-        console.log('Default navigationFilePath set and stored in local storage:', navigationFilePath);
-    }
-
+        var navigationFilePath = localStorage.getItem('navigationFilePath');
+        
         window.onload = function() {
             fetch(navigationFilePath)
                 .then(response => response.text())
@@ -30,6 +21,9 @@
 </head>
     <body>
         <div id="navigation-placeholder"></div>
+    <div class="tab-content container">
+        Im in Germain project page
+    </div>
 
     <!-- FOR BOOTSTRAP -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

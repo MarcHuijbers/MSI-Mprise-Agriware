@@ -10,20 +10,69 @@
 </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="index.html">Smart Industry</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav nav" role="tablist">
-                    <a class="nav-item nav-link" href="start.html" id="start-tab" role="tab" aria-controls="start" aria-selected="true"><i class="fa fa-fw fa-home"></i>Start <span class="sr-only">(current)</span></a>
-                    <a class="nav-item nav-link" href="#business" id="business-tab" role="tab" aria-controls="business" aria-selected="true"><i class="fa fa-handshake-o"></i> Business</a>
-                    <a class="nav-item nav-link" href="#connection" id="connection-tab" role="tab" aria-controls="connection" aria-selected="true"><i class="fa fa-code"></i> Connection</a>
-                    <a class="nav-item nav-link" href="#technology" id="technology-tab" role="tab" aria-controls="technology" aria-selected="true"><i class="fa fa-cog"></i> Technology</a>
-                    <a class="nav-item nav-link" href="#project" id="project-tab" role="tab" aria-controls="project" aria-selected="true"><i class="fa fa-rocket"></i> Project</a>
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="navbar-brand" href="index.html">Smart Industry</a>
+                </li>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav nav" role="tablist" aria-labelledby="start-tab">
+                        <li class="nav-item">
+                            <a class="nav-item nav-link" href="start.html" id="start-tab" role="tab" aria-controls="start" aria-selected="true"><i class="fa fa-fw fa-home"></i>Start <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="hover" aria-haspopup="true" aria-expanded="false"><i class="fa fa-handshake-o"></i> Business</a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown" onmouseover="this.classList.add('show')" onmouseout="this.classList.remove('show')">
+                                <a class="dropdown-item" href="#">Germain</a>
+                                <a class="dropdown-item" href="#">Marc</a>
+                                <a class="dropdown-item" href="#">Sjoerd</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-code"></i> Connection</a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown" onmouseover="this.classList.add('show')" onmouseout="this.classList.remove('show')">
+                                <a class="dropdown-item" href="#">Germain</a>
+                                <a class="dropdown-item" href="#">Marc</a>
+                                <a class="dropdown-item" href="#">Sjoerd</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog"></i> Technology</a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown" onmouseover="this.classList.add('show')" onmouseout="this.classList.remove('show')">
+                                <a class="dropdown-item" href="#">Germain</a>
+                                <a class="dropdown-item" href="#">Marc</a>
+                                <a class="dropdown-item" href="#">Sjoerd</a>
+                            </div>
+                        </li> 
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-rocket"></i>Project</a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown" onmouseover="this.classList.add('show')" onmouseout="this.classList.remove('show')">
+                                <a class="dropdown-item" href="#">Germain</a>
+                                <a class="dropdown-item" href="#">Marc</a>
+                                <a class="dropdown-item" href="#">Sjoerd</a>
+                            </div>
+                        </li>
+                    </div>
                 </div>
-            </div>
+            </ul>
         </nav>
+    
+        <script>
+            // Add JavaScript code to open dropdown on hover
+            var dropdowns = document.getElementsByClassName("dropdown");
+            for (var i = 0; i < dropdowns.length; i++) {
+                dropdowns[i].addEventListener("mouseover", function() {
+                    this.classList.add("show");
+                    this.querySelector(".dropdown-menu").classList.add("show");
+                });
+                dropdowns[i].addEventListener("mouseout", function() {
+                    this.classList.remove("show");
+                    this.querySelector(".dropdown-menu").classList.remove("show");
+                });
+            }
+        </script>
         <div class="tab-content container">
            <!-- introductie -->
            <h2>Introductie</h2>

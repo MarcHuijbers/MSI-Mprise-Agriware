@@ -11,7 +11,7 @@
         var navigationFilePath = localStorage.getItem('navigationFilePath');
         
         window.onload = function() {
-            fetch(navigationFilePath)
+            fetch('navigation.html')
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('navigation-placeholder').innerHTML = data;

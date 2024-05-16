@@ -1,1 +1,0 @@
-# stap 1 Hoeveel Planten heb ik nodig om aan het gevraagde aantal stekken te voldoen? Beginnend met de eerste week waarbij de vraag > 0 en dit wordt voldaan met de eerste harvest fase.

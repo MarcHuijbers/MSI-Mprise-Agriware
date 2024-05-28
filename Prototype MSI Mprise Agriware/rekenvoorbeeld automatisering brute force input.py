@@ -1,6 +1,5 @@
 # Dit is de geautomatiseerde versie van het excel bestand: productie voorstel reken voorbeeld.
 # De input hiervan moet handmatig ingevoerd worden in de terminal. Onderstaand is een testcase gegeven die overeenkomt met de testcase in het excel bestand.
-# TODO: Brute force de input van de gebruiker.
 # TODO: Optimaliseer de aanbodlijn met ORTools.
 
 # Settings
@@ -67,59 +66,64 @@ demand = {
     32 : 0
 }
 
-# Initialize the counter for the iterations
-iteration = 0
 
-# Step 4: Iterate until the demand is met for all weeks
-while any(demand >= marge for demand in demand.values()):
-    # Increment the counter for the iterations
-    iteration += 1
-    
-    # Step 1: Enter the number of starting cuttings and the planting week
-    while True:
-        start_cuttings = int(input("Enter the number of starting cuttings: "))
-        if start_cuttings < minimumNumberOfPlants or start_cuttings > maximumNumberOfPlants:
-            print(f"Number of starting cuttings must be between {minimumNumberOfPlants} and {maximumNumberOfPlants}.")
-        else:
-            break
+def calculate_supply_demand(maxPiecesPerHarvest, firstHarvestWeek, marge, minimumNumberOfPlants, maximumNumberOfPlants, minimumPlantweek, maximumPlantweek):
+    # Initialize the counter for the iterations
+    iteration = 0
 
-    while True:
-        planting_week = int(input("Enter the week to start planting: "))
-        if planting_week < minimumPlantweek or planting_week > maximumPlantweek:
-            print("Invalid week. Please enter a week between 1 and 52.")
-        else:
-            break
-    
-    # Step 2: Calculate the output for each week based on the productieschema
-    supply = {}
-    for week in range(min(demand.keys()), len(demand)):  # Loop over the weeks from the minimum key in demand to week 32
-        # The growth week is the week after planting the cuttings
-        growth_week = week - planting_week + 1  # Calculate the growth week (subtract planting week and add 1 because the first week is week 1). 
-        if growth_week >= firstHarvestWeek:  # Check if it's time to harvest the cuttings
-            percentage = productieschema.get(growth_week - firstHarvestWeek, 0) / 100  # Get the harvest percentage for this growth week
-            supply[week] = int(start_cuttings * percentage * maxPiecesPerHarvest)  # Calculate the supply for this week based on the percentage and the maximum pieces per harvest
-        else:
-            supply[week] = 0  # No supply before the first harvest week
-
-    # Print the output for each week
-    print()
-    print(f"Iteration: {iteration}")
-    print("Supply per sales week for the initial batch")
-    for week, supply_value in supply.items():
-        print(f"Week {week}\t{supply_value}\tCuttings")
+    # Step 4: Iterate until the demand is met for all weeks
+    while any(demand >= marge for demand in demand.values()):
+        # Increment the counter for the iterations
+        iteration += 1
         
+        # Step 1: Enter the number of starting cuttings and the planting week
+        while True:
+            start_cuttings = int(input("Enter the number of starting cuttings: ")) # input aanpassen naar brute force
+            if start_cuttings < minimumNumberOfPlants or start_cuttings > maximumNumberOfPlants:
+                print(f"Number of starting cuttings must be between {minimumNumberOfPlants} and {maximumNumberOfPlants}.")
+            else:
+                break
 
-    # Step 3: Update the demand per week based on the supply
-    for week, demand_value in demand.items():
-        demand[week] -= supply.get(week, 0)
+        while True:
+            planting_week = int(input("Enter the week to start planting: ")) # input aanpassen naar brute force
+            if planting_week < minimumPlantweek or planting_week > maximumPlantweek:
+                print("Invalid week. Please enter a week between 1 and 52.")
+            else:
+                break
         
-    # Print the updated demand per week
-    print()
-    print(f"Iteration: {iteration}")
-    print("Updated demand per sales week")
-    for week, demand_value in demand.items():
-        print(f"Week {week}\t{demand_value}\tCuttings")
+        # Step 2: Calculate the output for each week based on the productieschema
+        supply = {}
+        for week in range(min(demand.keys()), len(demand)):  # Loop over the weeks from the minimum key in demand to week 32
+            # The growth week is the week after planting the cuttings
+            growth_week = week - planting_week + 1  # Calculate the growth week (subtract planting week and add 1 because the first week is week 1). 
+            if growth_week >= firstHarvestWeek:  # Check if it's time to harvest the cuttings
+                percentage = productieschema.get(growth_week - firstHarvestWeek, 0) / 100  # Get the harvest percentage for this growth week
+                supply[week] = int(start_cuttings * percentage * maxPiecesPerHarvest)  # Calculate the supply for this week based on the percentage and the maximum pieces per harvest
+            else:
+                supply[week] = 0  # No supply before the first harvest week
 
+        # Print the output for each week
+        print()
+        print(f"Iteration: {iteration}")
+        print("Supply per sales week for the initial batch")
+        for week, supply_value in supply.items():
+            print(f"Week {week}\t{supply_value}\tCuttings")
+            
+
+        # Step 3: Update the demand per week based on the supply
+        for week, demand_value in demand.items():
+            demand[week] -= supply.get(week, 0)
+            
+        # Print the updated demand per week
+        print()
+        print(f"Iteration: {iteration}")
+        print("Updated demand per sales week")
+        for week, demand_value in demand.items():
+            print(f"Week {week}\t{demand_value}\tCuttings")
+            
+
+
+calculate_supply_demand(maxPiecesPerHarvest, firstHarvestWeek, marge, minimumNumberOfPlants, maximumNumberOfPlants, minimumPlantweek, maximumPlantweek)
 
 # Testcase 1 volgens Productie voorstel reken voorbeeld.
 # Input:

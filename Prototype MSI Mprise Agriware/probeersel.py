@@ -63,33 +63,54 @@ def calculate_optimal_planting_weeks(maxPiecesPerHarvest, firstHarvestWeek, marg
     # Create the solver
     solver = pywraplp.Solver.CreateSolver('SCIP')
     if not solver:
-        return
+        return None
 
     num_weeks = maximumPlantweek - minimumPlantweek + 1
 
     # Decision variables
-    start_cuttings = [solver.IntVar(0, maximumNumberOfPlants, f'start_cuttings_{w}') for w in range(minimumPlantweek, maximumPlantweek + 1)]
+    start_cuttings = [solver.IntVar(minimumNumberOfPlants, maximumNumberOfPlants, f'start_cuttings_{w}') for w in range(minimumPlantweek, maximumPlantweek + 1)]
+    overproduction = [solver.NumVar(0, solver.infinity(), f'overproduction_{w}') for w in range(minimumPlantweek, maximumPlantweek + 1)]
 
-    # Constraints to ensure supply meets or exceeds demand
+    # Supply constraints to ensure it meets or exceeds demand with margin
     for week in range(minimumPlantweek, maximumPlantweek + 1):
         supply = solver.Sum(
             start_cuttings[plant_week - minimumPlantweek] * productieschema.get(week - plant_week + 1 - firstHarvestWeek, 0) / 100 * maxPiecesPerHarvest
             for plant_week in range(minimumPlantweek, week - firstHarvestWeek + 2)
         )
         solver.Add(supply >= demand.get(week, 0) - margin)
+        solver.Add(overproduction[week - minimumPlantweek] >= supply - demand.get(week, 0))
 
-    # Objective function: minimize the total number of starting cuttings
-    solver.Minimize(solver.Sum(start_cuttings[w - minimumPlantweek] for w in range(minimumPlantweek, maximumPlantweek + 1)))
+    # Objective function: minimize the total number of starting cuttings plus penalty for overproduction
+    solver.Minimize(
+        solver.Sum(start_cuttings[w - minimumPlantweek] for w in range(minimumPlantweek, maximumPlantweek + 1)) +
+        solver.Sum(overproduction[w - minimumPlantweek] for w in range(minimumPlantweek, maximumPlantweek + 1))
+    )
 
     # Solve the problem
     status = solver.Solve()
 
     if status == pywraplp.Solver.OPTIMAL:
-        print('Optimal planting schedule found:')
+        optimal_schedule = {}
         for w in range(num_weeks):
             if start_cuttings[w].solution_value() > 0:
-                print(f'Planting week: {w + minimumPlantweek}, Start cuttings: {start_cuttings[w].solution_value()}')
+                optimal_schedule[w + minimumPlantweek] = start_cuttings[w].solution_value()
+        
+        print('Optimal planting schedule found:')
+        for week, cuttings in optimal_schedule.items():
+            print(f'Planting week: {week}, Start cuttings: {cuttings}')
+
+        print('\nSupply vs Demand:')
+        for week in range(minimumPlantweek, maximumPlantweek + 1):
+            supply = sum(
+                optimal_schedule.get(plant_week, 0) * productieschema.get(week - plant_week + 1 - firstHarvestWeek, 0) / 100 * maxPiecesPerHarvest
+                for plant_week in range(minimumPlantweek, week - firstHarvestWeek + 2)
+            )
+            print(f'Week: {week}, Demand: {demand.get(week, 0)}, Supply: {supply}')
+        
+        return optimal_schedule
     else:
         print('No optimal solution found.')
+        return None
 
-calculate_optimal_planting_weeks(maxPiecesPerHarvest, firstHarvestWeek, margin, minimumNumberOfPlants, maximumNumberOfPlants, minimumPlantweek, maximumPlantweek, demand, productieschema)
+optimal_schedule = calculate_optimal_planting_weeks(maxPiecesPerHarvest, firstHarvestWeek, margin, minimumNumberOfPlants, maximumNumberOfPlants, minimumPlantweek, maximumPlantweek, demand, productieschema)
+print("\nOptimal Schedule Dictionary:", optimal_schedule)

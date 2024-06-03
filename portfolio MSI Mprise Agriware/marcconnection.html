@@ -23,13 +23,13 @@
         <div id="navigation-placeholder"></div>
         <div class="tab-content container">
             <h3>Workshop Webdesign skills</h3>
-                <p>Hubert Bijsterveld</p>
+                <p>In deze workshop heb ik mijn kennis van HTML en CSS even kort opgefrist. Later heb ik met het bouwen van de website onderzocht hoe ik een dynamische navigatiebalk kon maken, daarmee bedoel ik een navigatiebalk die op elke pagina hetzelfde is en op 1 plek in de code hoeft worden aangepast.</p>
             <h3>Artificial Intelligence Part I</h3>
-                <p>Raoul Grouls</p>
+                <p>In deze eerste workshop van Raoul Grouls hebben we introductie gekregen over verschillende AI algoritmes en waarvoor die ingezet konden worden. Wat mij vooral op viel is dat veel van de algoritmes gebaseerd waren op de natuur (biomimicry). Ik neem hieruit mee dat we voor oplossingen de natuur als inspiratiebron kunnen gebruiken.</p>
             <h3>Workshop Application Programming Interface</h3>
                 <h4>Nasa's Astronomical Picture of the Day</h4>
                 <form >
-                    <label for="datepiceker">Pick a date:
+                    <label for="datepicker">Pick a date:
                         <input id="datepicker" type="date" min="" max="" > 
                     </label>
                 </form>
@@ -78,20 +78,21 @@
                     .then(function(resp) { return resp.json() }) // Convert data to json
                     .then(function(data) {
                         drawWeather(data); // Call drawWeather
-                    })
+                        })
                     .catch(function() {
                         // catch any errors
-                    });
-                }
+                        });
+                    }
                       
                       window.onload = function() {
                         weatherBalloon( 6167865 );
                       }      
                   </script>
         <h3>Artificial Intelligence Part II</h3>
-                <p>Raoul Grouls</p>
+                <p>Tijdens deze workshop heeft Raoul ons gevraagd welke aspecten van AI we nog meer interessant vinden. Ik gaf aan dat ik meer wilde weten over de methodes die worden gebruikt tijdens een data science project zoals CRISP-DM wat ik vanuit mijn opleiding ken. Verder leek het mij interessant om het te hebben over de verschillen tussen de rollen binnen een data team.</p>
         <h3>Artificial Intelligence Part III</h3>
-                <p>Raoul Grouls</p>
+                  <img src="img/datascienceprojectfasering.PNG" alt="datascienceprojectfasering">
+                <p>In het bovenstaande plaatje zijn de projectfases van een data science project weergeven. Deze fases hebben we als methode gehanteerd tijdens ons project. Hoewel ons project niet precies een data science project is past de benadering ook voor ons probleem.</p>
         </div>
 
     <!-- FOR BOOTSTRAP -->

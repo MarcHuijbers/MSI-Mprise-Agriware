@@ -11,7 +11,7 @@
         var navigationFilePath = localStorage.getItem('navigationFilePath');
         
         window.onload = function() {
-            fetch('navigation.html')
+            fetch(navigationFilePath)
                 .then(response => response.text())
                 .then(data => {
                     document.getElementById('navigation-placeholder').innerHTML = data;
@@ -41,11 +41,14 @@
             <img src="img/data-architectuur-elk.PNG" alt="data-architectuur-elk" width="800">
             <p>De workshop bood niet alleen inzicht in de LEAN methodiek, maar ook in het belang van een duidelijke boodschap en identiteit voor een bedrijf. Door actief deel te nemen aan het oplossen van de probleemstelling en het presenteren van onze oplossing, kreeg ik de kans om mijn vaardigheden te demonstreren en mijn zelfvertrouwen te versterken. De ervaring heeft benadrukt hoe belangrijk het is voor bedrijven om een duidelijke boodschap en identiteit uit te stralen. Het helpt niet alleen om uniek te zijn, maar ook om een bepaalde verwachting te creëren bij klanten. </p>
         <h3>Workshop Target Operating Model</h3>
+            <img src="img/TOM.model.jpg" alt="TOM" width="600">
             <p>Paul Kalis, Target Operating Model</p>
         <h3>Workshop Managementgame</h3>
+            <img src="img/netwerk.jpg" alt="netwerk" width="600">
             <p>Yvonne Peterman, Managementgame</p>
         <h3>Workshop Dinamo Model</h3>
-            <p>Yvonne Pterman, dinamo model</p>
+            <img src="img/dinamomodel.jpg" alt="dinamomodel" width="600">
+            <p>Yvonne Peterman, dinamo model</p>
     </div>
 
     <!-- FOR BOOTSTRAP -->

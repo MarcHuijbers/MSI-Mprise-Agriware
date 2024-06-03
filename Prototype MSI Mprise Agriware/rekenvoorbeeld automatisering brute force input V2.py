@@ -5,11 +5,12 @@ from ortools.linear_solver import pywraplp
 # and productieschema are defined. These parameters represent various constraints and data related to your problem.
 maxPiecesPerHarvest = 5
 firstHarvestWeek = 3
-margin = 10
+margin = 1
 minimumNumberOfPlants = 10
 maximumNumberOfPlants = 50
 minimumPlantweek = 1
 maximumPlantweek = 32
+
 
 productieschema = {
     1: 20,

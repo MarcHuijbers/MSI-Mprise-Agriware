@@ -3,7 +3,7 @@ from ortools.linear_solver import pywraplp
 # Parameters
 maxPiecesPerHarvest = 5
 firstHarvestWeek = 3
-margin = 10
+margin = 1
 minimumNumberOfPlants = 10
 maximumNumberOfPlants = 50
 minimumPlantweek = 1

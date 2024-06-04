@@ -68,22 +68,27 @@ def calculate_optimal_planting_weeks(maxPiecesPerHarvest, firstHarvestWeek, marg
     num_weeks = maximumPlantweek - minimumPlantweek + 1
 
     # Decision variables
-    start_cuttings = [solver.IntVar(minimumNumberOfPlants, maximumNumberOfPlants, f'start_cuttings_{w}') for w in range(minimumPlantweek, maximumPlantweek + 1)]
-    overproduction = [solver.NumVar(0, solver.infinity(), f'overproduction_{w}') for w in range(minimumPlantweek, maximumPlantweek + 1)]
+    start_cuttings = [solver.IntVar(0, maximumNumberOfPlants, f'start_cuttings_{w}') for w in range(minimumPlantweek, maximumPlantweek + 1)]
+    plant_job = [solver.BoolVar(f'plant_job_{w}') for w in range(minimumPlantweek, maximumPlantweek + 1)]
 
-    # Supply constraints to ensure it meets or exceeds demand with margin
+    # Constraints
     for week in range(minimumPlantweek, maximumPlantweek + 1):
+        # Define the supply based on start cuttings and production schedule
         supply = solver.Sum(
             start_cuttings[plant_week - minimumPlantweek] * productieschema.get(week - plant_week + 1 - firstHarvestWeek, 0) / 100 * maxPiecesPerHarvest
             for plant_week in range(minimumPlantweek, week - firstHarvestWeek + 2)
         )
+        # Ensure supply meets demand with margin
         solver.Add(supply >= demand.get(week, 0) - margin)
-        solver.Add(overproduction[week - minimumPlantweek] >= supply - demand.get(week, 0))
+        # Ensure start cuttings are only planted if a planting job is done
+        solver.Add(start_cuttings[week - minimumPlantweek] <= maximumNumberOfPlants * plant_job[week - minimumPlantweek])
+        # Ensure minimum number of plants if planting job is done
+        solver.Add(start_cuttings[week - minimumPlantweek] >= minimumNumberOfPlants * plant_job[week - minimumPlantweek])
 
-    # Objective function: minimize the total number of starting cuttings plus penalty for overproduction
+    # Objective function: minimize the total number of starting cuttings and the number of planting jobs
     solver.Minimize(
         solver.Sum(start_cuttings[w - minimumPlantweek] for w in range(minimumPlantweek, maximumPlantweek + 1)) +
-        solver.Sum(overproduction[w - minimumPlantweek] for w in range(minimumPlantweek, maximumPlantweek + 1))
+        solver.Sum(plant_job[w - minimumPlantweek] * 1000 for w in range(minimumPlantweek, maximumPlantweek + 1))  # Penalty factor for planting jobs
     )
 
     # Solve the problem

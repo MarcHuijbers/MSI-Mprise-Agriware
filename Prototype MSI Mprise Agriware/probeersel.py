@@ -9,6 +9,7 @@ minimumNumberOfPlants = 15
 maximumNumberOfPlants = 50
 minimumPlantweek = 1
 maximumPlantweek = 32
+penalty_factor = 1000
 
 productieschema = {
     1: 20,
@@ -80,7 +81,7 @@ def calculate_optimal_planting_weeks(maxPiecesPerHarvest, firstHarvestWeek, marg
             for plant_week in range(minimumPlantweek, week - firstHarvestWeek + 2)
         )
         # Ensure supply meets demand with margin
-        solver.Add(supply >= demand.get(week, 0) - margin)
+        solver.Add(supply >= demand.get(week, 0))
         # Ensure start cuttings are only planted if a planting job is done
         solver.Add(start_cuttings[week - minimumPlantweek] <= maximumNumberOfPlants * plant_job[week - minimumPlantweek])
         # Ensure minimum number of plants if planting job is done
@@ -88,8 +89,8 @@ def calculate_optimal_planting_weeks(maxPiecesPerHarvest, firstHarvestWeek, marg
 
     # Objective function: minimize the total number of starting cuttings and the number of planting jobs
     solver.Minimize(
-        solver.Sum(start_cuttings[w - minimumPlantweek] for w in range(minimumPlantweek, maximumPlantweek + 1)) +
-        solver.Sum(plant_job[w - minimumPlantweek] * 1000 for w in range(minimumPlantweek, maximumPlantweek + 1))  # Penalty factor for planting jobs
+        solver.Sum(start_cuttings[w - minimumPlantweek] + margin for w in range(minimumPlantweek, maximumPlantweek + 1)) +
+        solver.Sum(plant_job[w - minimumPlantweek] * penalty_factor for w in range(minimumPlantweek, maximumPlantweek + 1))  # Penalty factor for planting jobs
     )
 
     # Solve the problem

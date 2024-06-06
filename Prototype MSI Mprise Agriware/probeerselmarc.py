@@ -4,11 +4,12 @@ import matplotlib.pyplot as plt
 # Settings
 maxPiecesPerHarvest = 5
 firstHarvestWeek = 3
-margin = 10
-minimumNumberOfPlants = 1 # BUG niet meer dan 0 planten toegestaan anders geen oplossing
+margin = 30
+minimumNumberOfPlants = 0 # BUG niet meer dan 0 planten toegestaan anders geen oplossing
 maximumNumberOfPlants = 50
 minimumPlantweek = 1
 maximumPlantweek = 52
+penalty_factor = 500
 
 
 productionCurve = {
@@ -51,12 +52,12 @@ demand = {
     21: 13,
     22: 0,
     23: 0,
-    24: 10,
-    25: 0,
-    26: 0,
-    27: 0,
-    28: 10,
-    29: 50,
+    24: 20,
+    25: 35,
+    26: 55,
+    27: 70,
+    28: 90,
+    29: 100,
     30: 100,
     31: 0,
     32: 0
@@ -72,6 +73,7 @@ def calculate_optimal_planting_weeks(maxPiecesPerHarvest, firstHarvestWeek, marg
 
     # Decision variables
     start_cuttings = [solver.IntVar(minimumNumberOfPlants, maximumNumberOfPlants, f'start_cuttings_{w}') for w in range(minimumPlantweek, maximumPlantweek + 1)]
+    plant_job = [solver.BoolVar(f'plant_job_{w}') for w in range(minimumPlantweek, maximumPlantweek + 1)]
 
 
     # Constraints to ensure supply meets or exceeds demand
@@ -80,15 +82,12 @@ def calculate_optimal_planting_weeks(maxPiecesPerHarvest, firstHarvestWeek, marg
             start_cuttings[plant_week - minimumPlantweek] * productionCurve.get(week - plant_week + 1 - firstHarvestWeek, 0) / 100 * maxPiecesPerHarvest
             for plant_week in range(minimumPlantweek, week - firstHarvestWeek + 2)
         )
-        if demand.get(week, 0) > 0:
-            solver.Add(supply >= demand.get(week, 0) + margin)
-        demand_value = demand.get(week, 0)
-        demandMargin = demand_value + margin
-        print("demand: " + str(demand_value))
-        print("demandMargin: " + str(demandMargin))
-
+            
     # Objective function: minimize the total number of starting cuttings
-    solver.Minimize(solver.Sum(start_cuttings[w - minimumPlantweek] for w in range(minimumPlantweek, maximumPlantweek + 1)))
+    solver.Minimize(
+        solver.Sum(start_cuttings[w - minimumPlantweek] + margin for w in range(minimumPlantweek, maximumPlantweek + 1)) +
+        solver.Sum(plant_job[w - minimumPlantweek] * penalty_factor for w in range(minimumPlantweek, maximumPlantweek + 1))  # Penalty factor for planting jobs
+    )
 
     # Solve the problem
     productionScheme = []  # Define the ProductionScheme list
@@ -108,7 +107,6 @@ def calculate_optimal_planting_weeks(maxPiecesPerHarvest, firstHarvestWeek, marg
         return productionScheme
 
 productionScheme = calculate_optimal_planting_weeks(maxPiecesPerHarvest, firstHarvestWeek, margin, minimumNumberOfPlants, maximumNumberOfPlants, minimumPlantweek, maximumPlantweek, demand, productionCurve)
-
 
 def visualize_demand_and_supply(demand, productionScheme, productionCurve):
     weeks = list(demand.keys())

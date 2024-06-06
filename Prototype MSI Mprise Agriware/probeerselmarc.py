@@ -63,6 +63,7 @@ demand = {
     32: 0
 }
 
+
 def calculate_optimal_planting_weeks(maxPiecesPerHarvest, firstHarvestWeek, margin, minimumNumberOfPlants, maximumNumberOfPlants, minimumPlantweek, maximumPlantweek, demand, productionCurve):
     # Create the solver
     solver = pywraplp.Solver.CreateSolver('SCIP')
@@ -82,10 +83,16 @@ def calculate_optimal_planting_weeks(maxPiecesPerHarvest, firstHarvestWeek, marg
             start_cuttings[plant_week - minimumPlantweek] * productionCurve.get(week - plant_week + 1 - firstHarvestWeek, 0) / 100 * maxPiecesPerHarvest
             for plant_week in range(minimumPlantweek, week - firstHarvestWeek + 2)
         )
+    
+        solver.Add(supply >= demand.get(week, 0))  # Add margin to the constraint
+        # Ensure start cuttings are only planted if a planting job is done
+        solver.Add(start_cuttings[week - minimumPlantweek] <= maximumNumberOfPlants * plant_job[week - minimumPlantweek])
+        # Ensure minimum number of plants if planting job is done
+        solver.Add(start_cuttings[week - minimumPlantweek] >= minimumNumberOfPlants * plant_job[week - minimumPlantweek])
             
     # Objective function: minimize the total number of starting cuttings
     solver.Minimize(
-        solver.Sum(start_cuttings[w - minimumPlantweek] + margin for w in range(minimumPlantweek, maximumPlantweek + 1)) +
+        solver.Sum(start_cuttings[w - minimumPlantweek] for w in range(minimumPlantweek, maximumPlantweek + 1)) +
         solver.Sum(plant_job[w - minimumPlantweek] * penalty_factor for w in range(minimumPlantweek, maximumPlantweek + 1))  # Penalty factor for planting jobs
     )
 

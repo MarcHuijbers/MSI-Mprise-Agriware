@@ -1,10 +1,11 @@
 from ortools.linear_solver import pywraplp
+import matplotlib.pyplot as plt
 
 # Parameters
 maxPiecesPerHarvest = 5
 firstHarvestWeek = 3
 margin = 1
-minimumNumberOfPlants = 10
+minimumNumberOfPlants = 15
 maximumNumberOfPlants = 50
 minimumPlantweek = 1
 maximumPlantweek = 32
@@ -52,7 +53,7 @@ demand = {
     25: 0,
     26: 0,
     27: 0,
-    28: 0,
+    28: 100,
     29: 0,
     30: 0,
     31: 0,
@@ -105,13 +106,29 @@ def calculate_optimal_planting_weeks(maxPiecesPerHarvest, firstHarvestWeek, marg
             print(f'Planting week: {week}, Start cuttings: {cuttings}')
 
         print('\nSupply vs Demand:')
+        supply_per_week = []
         for week in range(minimumPlantweek, maximumPlantweek + 1):
             supply = sum(
                 optimal_schedule.get(plant_week, 0) * productieschema.get(week - plant_week + 1 - firstHarvestWeek, 0) / 100 * maxPiecesPerHarvest
                 for plant_week in range(minimumPlantweek, week - firstHarvestWeek + 2)
             )
+            supply_per_week.append(supply)
             print(f'Week: {week}, Demand: {demand.get(week, 0)}, Supply: {supply}')
         
+        # Generate the graph using matplotlib
+        weeks = list(range(minimumPlantweek, maximumPlantweek + 1))
+        demand_values = [demand.get(week, 0) for week in weeks]
+        
+        plt.figure(figsize=(10, 6))
+        plt.plot(weeks, supply_per_week, label='Supply')
+        plt.plot(weeks, demand_values, label='Demand')
+        plt.xlabel('Weeks')
+        plt.ylabel('Number of Plants')
+        plt.title('Supply vs Demand Over Time')
+        plt.legend()
+        plt.grid(True)
+        plt.show()
+
         return optimal_schedule
     else:
         print('No optimal solution found.')

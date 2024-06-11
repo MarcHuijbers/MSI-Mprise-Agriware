@@ -4,12 +4,12 @@ import matplotlib.pyplot as plt
 # Settings
 maxPiecesPerHarvest = 5
 firstHarvestWeek = 3
-margin = 30
-minimumNumberOfPlants = 0 # BUG niet meer dan 0 planten toegestaan anders geen oplossing
+margin = 0 # marge voegt nog niks toe
+minimumNumberOfPlants = 0 # Niet meer dan 0 planten toegestaan anders geen oplossing
 maximumNumberOfPlants = 50
 minimumPlantweek = 1
 maximumPlantweek = 52
-penalty_factor = 500
+penalty_factor = 1000
 
 
 productionCurve = {
@@ -84,17 +84,17 @@ def calculate_optimal_planting_weeks(maxPiecesPerHarvest, firstHarvestWeek, marg
             for plant_week in range(minimumPlantweek, week - firstHarvestWeek + 2)
         )
     
-        solver.Add(supply >= demand.get(week, 0))  # Add margin to the constraint
+        solver.Add(supply >= demand.get(week, 0))  # TODO Add margin to the constraint
         # Ensure start cuttings are only planted if a planting job is done
         solver.Add(start_cuttings[week - minimumPlantweek] <= maximumNumberOfPlants * plant_job[week - minimumPlantweek])
         # Ensure minimum number of plants if planting job is done
         solver.Add(start_cuttings[week - minimumPlantweek] >= minimumNumberOfPlants * plant_job[week - minimumPlantweek])
             
     # Objective function: minimize the total number of starting cuttings
-    solver.Minimize(
-        solver.Sum(start_cuttings[w - minimumPlantweek] for w in range(minimumPlantweek, maximumPlantweek + 1)) +
-        solver.Sum(plant_job[w - minimumPlantweek] * penalty_factor for w in range(minimumPlantweek, maximumPlantweek + 1))  # Penalty factor for planting jobs
-    )
+        solver.Minimize(
+            solver.Sum(start_cuttings[w - minimumPlantweek] + margin for w in range(minimumPlantweek, maximumPlantweek + 1)) +
+            solver.Sum(plant_job[w - minimumPlantweek] * penalty_factor for w in range(minimumPlantweek, maximumPlantweek + 1))  # Penalty factor for planting jobs
+        )
 
     # Solve the problem
     productionScheme = []  # Define the ProductionScheme list

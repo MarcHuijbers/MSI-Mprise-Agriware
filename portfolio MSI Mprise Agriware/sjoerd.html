@@ -10,15 +10,21 @@
     <link rel="stylesheet" href="css/sjoerdstyle.css">
 
    <script>
-        var navigationFilePath = localStorage.getItem('navigationFilePath');
+        var navigationFilePath = localStorage.getItem('navigationFilePath') || 'navigation.html';
 
-        window.onload = function() {
-            fetch(navigationFilePath)
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('navigation-placeholder').innerHTML = data;
-                });
-        };
+window.onload = function() {
+    fetch(navigationFilePath)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+        return response.text();
+        })
+    .then(data => {
+        document.getElementById('navigation-placeholder').innerHTML = data;
+    })
+.catch(error => console.error('Error fetching navigation file:', error));
+};
     </script>
 </head>
     <body>

@@ -8,15 +8,21 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script>
-        var navigationFilePath = localStorage.getItem('navigationFilePath');
-        
-        window.onload = function() {
-            fetch(navigationFilePath)
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('navigation-placeholder').innerHTML = data;
-                });
-        };
+        var navigationFilePath = localStorage.getItem('navigationFilePath') || 'navigation.html';
+
+window.onload = function() {
+    fetch(navigationFilePath)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+        return response.text();
+        })
+    .then(data => {
+        document.getElementById('navigation-placeholder').innerHTML = data;
+    })
+.catch(error => console.error('Error fetching navigation file:', error));
+};
     </script>
 </head>
     <body>
@@ -25,18 +31,6 @@
         <h1>Smart Project</h1>
         <p>Het project heb ik gevolgd bij Mprise Agriware met Sjoerd van Stratum en Marc Huijbers. De vraagstelling van Mprise was: kunnen wij met behulp van AI een productieplanning maken? </p>
         <p>Ik ben zeer tevreden over dit project. Ik ben vooral tevreden over de route die wij als groep bewandeld hebben om tot het eind product te komen. Eerst kregen wij vanuit het bedrijf te horen dat ze een Hackaton hadden gehad waarbij eruit was gekomen dat het planningsproces heel goed gemaakt zou kunnen worden met behulp van ChatGPT, hieruit kwam de opdracht om een juiste prompt te maken. Maar toen wij begonnen met ons onderzoek kwamen we er al snel achter dat ChatGPT geen rekenmodel is waardoor het heel lastig wordt om met behulp van ChatGPT een productieplanning te maken. Hierna zijn we in gesprek gegaan met Raoul waar eerst de conclusie was om Bayesiaanse Simulatie te gebruiken, dit is een simulatie die gebruik maakt van de Bayesiaanse statistiek om een uitkomst te krijgen. Dit was voor ons heel lastig om te maken omdat wij geen ervaring hebben met simulaties maken. Toen wij hier al een tijdje mee aan het sukkelen waren, hebben wij Raoul nog een keer bericht met de vraag of hij ons verder zou kunnen helpen met bijvoorbeeld een voorbeeld waar wij inspiratie uit zouden kunnen halen. Toen wij nog een keer in gesprek waren met Raoul kwamen we tot de realisatie dat Raoul ons niet helemaal goed begrepen had en dat wij misschien beter een algoritme kunnen maken die met behulp van constraint optimization een oplossing kan maken. Dit hebben wij daarna uitgewerkt en ik ben er zeer trots op. Uiteindelijk hebben wij Python-code opgeleverd die een redelijke productieplanning maakt. Daarbij hebben wij Mprise ook het advies gegeven dat zij ons concept ook nog goed kunnen verbeteren, meer informatie is te vinden in onze businesscase.</p>
-        <h2>Leerdoelen</h2>
-        <p>Tijdens de minor ben ik ook bezig geweest met mezelf verbeteren. Ten eerste ben ik bezig geweest met mijn leerdoelen, deze zijn: ik wil tijdens deze minor bezig zijn mezelf assertiever tonen in verschillende meetings en ik zou deze minor graag meer te weten komen over hoe je een AI model maakt.</p>
-        <p>Ik heb deze minor mijn best gedaan om tijdens meetings meer van mezelf te laten horen, dit komt omdat ik vaak mezelf op de achtergrond zet en ik denk dat ik ook een goede bijdrage kan hebben bij gesprekken. Ik heb dit gedaan door middel van de gesprekken voorbereiden door middel van het DROP-model die ik tijdens mijn studie geleerd heb. Dit model wordt gebruikt om een gesprek voor te bereiden door het doel, de rollen, de onderwerpen en de procedure te beschrijven. Bij het behalen van mijn leerdoel heb ik ook veel te danken aan mijn projectgroepje die mij de ruimte hebben gegeven om mezelf assertiever te tonen tijdens gesprekken. Ik denk dat ik mijn leerdoel behaald heb en mezelf veel assertiever getoond tijdens de gesprekken van het project met bijvoorbeeld de opdrachtgever. Maar voor mij is het leerproces nog niet klaar want ik heb ook nog veel te leren. Ik denk namelijk dat het voor mijn professionele carrière belangrijk is om de ruimte die ik nodig heb, ook echt te nemen.</p>
-        <p>Naast dat ik mijn best heb gedaan om assertiever te zijn tijdens gesprekken heb ik ook mijn best gedaan om mijn interesse voor AI verder uit te breiden. Gelukkig heeft het project mij hier veel bij geholpen en ben ik veel te weten gekomen over AI en het maken daarvan. Het meest belangrijke wat ik geleerd heb is het model die wij gekregen hebben van Raoul. Dit model geeft een goed beeld bij het proces. De meest belangrijke opvatting die ik gedaan heb tijdens het project is dat een AI-model nooit helemaal af is, het proces gaat door in een oneindige cirkel. Ik denk dat ik door mijn opvattingen van het project veel geleerd heb over AI-modellen en hieruit is mijn conclusie dus ook dat ik denk dat ik mijn leerdoel behaald heb. </p>
-        <h2>Competenties</h2>
-        <p>Tijdens deze minor heb ik gewerkt aan verschillende competenties zodat ik deze minor met een voldoende af kan ronden. De competenties zijn als volgt: Je toont veel initiatief en betrokkenheid, je meningen of adviezen zijn gebaseerd op gedegen onderzoek, je kiest ambitieuze leerdoelen en verkent disciplines buiten je vakgebied, je bent bewust bezig met je persoonlijke groei, je gebruikt feedback en zelfreflectie om te leren en je helpt anderen actief groeien.</p>
-        <p>Ten eerste heb ik mijn best om initiatief en betrokkenheid te tonen. Dit is heb ik het meest getoond tijdens de lessen van additive manufacturing. Tijdens deze lessen heb ik veel vragen gesteld en heb ik geprobeerd om mijn kennis van dit onderwerp veel te verbreden. Daarnaast heb ik tijdens de AI lessen van Raoul ook mijn best gedaan om initiatief en betrokkenheid te tonen. Verder ben ik ook zeer betrokken geweest in het project.</p>
-        <p>Ten tweede denk ik dat ik mijn meningen of adviezen goed zijn gebaseerd op gedegen onderzoek. Dit leidt ik vooral af van het project waar ik samen met mijn project verschillende documenten heb opgeleverd waarvan het allemaal goed is onderbouwd, met verschillende bronnen die onze meningen en adviezen zullen onderbouwen.</p>
-        <p>Ten derde heb ik veel gewerkt aan mijn leerdoelen, die ook buiten mijn vakgebied zijn opgezet. Ik heb mijn leerdoelen en mijn proces ervan in een alinea hierboven al verwerkt. Maar in het kort denk ik dat ik mijn leerdoelen al voldoende heb afgerond. Maar ook al heb ik mijn leerdoelen behaald denk ik dat ik nog wel veel kan leren.</p>
-        <p>Ten vierde ben ik tijdens deze minor druk bezig geweest met mijn persoonlijke groei. Ik heb aan het begin van deze minor veel last gehad van mijn mentale gezondheid. Hierdoor vond ik het lastig om naar school te gaan, maar vooral vond ik het lastig om over de toekomst na te denken. Tijdens deze minor ben ik leuke en aardige mensen tegengekomen die het voor mij makkelijker maakten om naar de lessen toe te gaan. Doordat ik naar de lessen ging kon ik ook weer nadenken over mijn toekomst omdat ik weer enthousiast werd over mijn vakgebied door de lessen van Raoul. Hier ben ik zeer dankbaar voor.</p>
-        <p>Ten vijfde heb ik feedback en zelfreflectie gebruikt om veel over mezelf te leren dit semester. Tijdens het project heb ik feedback gekregen van Marc en Sjoerd waar ik hard aan gewerkt heb om dit te verbeteren.</p>
-        <p>Als laatste heb ik mijn best gedaan om anderen proberen te helpen met groeien, ook al vond ik dit wel lastig. Ik heb bij de lessen waar we leerden programmeren mij opengesteld om anderen te helpen met eventuele problemen die zij tegenkwamen. Maar omdat ik uit mezelf niet haantje de voorste ben werd ik vaak aan de zijkant gezet door studenten die zich wel makkelijker naar voren kunnen zetten. Toch denk ik dat ik deze competentie wel gehaald heb. Dit komt doordat ik mij wel open gesteld hebt om anderen te helpen, en dit is ook vaak gelukt. Ik heb bijvoorbeeld Stijn geholpen met de API’s programmeren, en ik heb Sjoerd ook af en toe uitleg gegeven over de code die wij tijdens het project gebouwd hebben.</p>
         
     </div>
 

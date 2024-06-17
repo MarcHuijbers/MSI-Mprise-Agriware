@@ -8,15 +8,21 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script>
-        var navigationFilePath = localStorage.getItem('navigationFilePath');
-        
-        window.onload = function() {
-            fetch(navigationFilePath)
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('navigation-placeholder').innerHTML = data;
-                });
-        };
+        var navigationFilePath = localStorage.getItem('navigationFilePath') || 'navigation.html';
+
+window.onload = function() {
+    fetch(navigationFilePath)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+        return response.text();
+        })
+    .then(data => {
+        document.getElementById('navigation-placeholder').innerHTML = data;
+    })
+.catch(error => console.error('Error fetching navigation file:', error));
+};
     </script>
 </head>
     <body>
@@ -33,11 +39,12 @@
         <p>In de tweede les hebben we geleerd over de verschillende manier van additive manufacturing. Er zijn veel verschillende manier van additive manufacturing die bestemd zijn voor verschillende doeleinden. Je hebt manieren waarmee je bijvoorbeeld ijzer kan 3d-printen. Ik vond deze les zelf minder interessant als de anderen omdat ik niet het gevoel heb dat ik hier ooit nog mee ga werken.</p>
         <p>In de derde les hebben we meer informatie gekregen over hoe solidworks werkt. Ik vond deze les zeer interessant omdat ik hierdoor meer inzichten heb gekregen over hoe ik mijn bakje kan maken voor mijn IoT-schakeling.</p>
         <p>De laatste les van Herold heb ik niet gevolgd omdat er een bedrijvenmarkt was waar ik in contact ben gekomen met verschillende bedrijven waar ik eventueel in september stage zou kunnen lopen.</p>
+        <img src="img/3D-print_Germain.jpg" alt="3D-print van Germain" width="600">
         <h2>IoT-Schakeling</h2>
         <p>Mijn IoT-schakeling is in mijn mening zeer goed gelukt. Ik ben zeer tevreden in zowel mijn 3d-print als mijn schakeling.</p>
         <p>Ten eerste vind ik dat mijn 3d-print er zeer goed is uitgekomen. Vooral nadat het printen de eerste keer niet lukte vanwege een fout in de slice. De printer was gestopt met printer na de eerste opzet. Ik ben hierna even gaan zitten met een van de werknemers van het FabLab die mij heeft geholpen met mijn print, en deze keer was die wel gelukt. Het idee achter mijn print was een middeleeuwse verdedigingstoren die goed zou passen bij bijvoorbeeld iemand die houd van lego.</p>
         <p>De schakeling maken begon bij het maken van mijn PCB-plaatje. Helaas kon mijn PCB-plaatje niet gemaakt worden waardoor ik er een van een klasgenoot moest gebruiken, gelukkig heb ik er een van Marc kunnen krijgen. Nadat ik mijn PCB had was het tijd om te solderen. Dit is gelukkig allemaal goed gegaan. Toen het solderen gedaan was, moest ik beginnen met mijn IoT-schakeling in elkaar zetten, hieronder is een foto te zien van mijn schakeling.</p>
-        
+        <img src="img/IoT-Schakeling_Germain.jpg" alt="IoT-Schakeling van Germain">
     </div>
 
     <!-- FOR BOOTSTRAP -->

@@ -8,15 +8,21 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script>
-        var navigationFilePath = localStorage.getItem('navigationFilePath');
-        
-        window.onload = function() {
-            fetch(navigationFilePath)
-                .then(response => response.text())
-                .then(data => {
-                    document.getElementById('navigation-placeholder').innerHTML = data;
-                });
-        };
+        var navigationFilePath = localStorage.getItem('navigationFilePath') || 'navigation.html';
+
+window.onload = function() {
+    fetch(navigationFilePath)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+        return response.text();
+        })
+    .then(data => {
+        document.getElementById('navigation-placeholder').innerHTML = data;
+    })
+.catch(error => console.error('Error fetching navigation file:', error));
+};
     </script>
 </head>
     <body>
@@ -30,7 +36,7 @@
         <p>De eerste AI workshop, gegeven door Raoul Grouls, was een introductie waar Raoul vertelde over verschillende machine learning modellen. Dit heeft mij een breder beeld gegeven over AI en wat het allemaal inhoudt. Ik vond het vooral interessant om te zien dat Raoul een simulatie liet zien van hoe mieren de snelste route vinden door middel van geur.</p>
         <p>Tijdens de tweede AI workshop heeft Raoul aan de klas gevraagd waar we meer over te weten wilde komen. Daar kwam uit dat we een simpele machine learning oplossing wilde maken en we wilden meer te weten krijgen over data science projecten. Uit deze les kwam de conclusie dat het handig is om de laatste les op te delen in twee delen, namelijk: het bedrijfskundige deel en het technische deel.</p>
         <p>Tijdens de derde les begonnen we eerste met het bedrijfskundige deel. Dit houdt in dat we het gehad hebben over hoe een data science project werkt van begin tot eind, hier hebben wij ook een model gekregen wat bij ons project heel erg van toepassing was. In het tweede deel van de les hebben we samen met Raoul een machine learning model gemaakt.</p>
-        
+        <img src="img/datascienceprojectfasering.PNG" alt="Model van Raoul" width="550">
     </div>
 
     <!-- FOR BOOTSTRAP -->
